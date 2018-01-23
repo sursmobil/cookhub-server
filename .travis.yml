@@ -1,1 +1,8 @@
 language: scala
+deploy:
+  provider: heroku
+  api_key:
+    secure: flEO9XOxpm1Iz0vq6EF1XEoKe9oR/XMadeVZWyoIyWrD+2ckUS09k7pmf8vFVirZplf3heSYncZF0fqnnIdwfmTrq6t/NsBGlgOfjX/EWi+v3p/EhaZVcTL1Pl1VB19qvFtg7+nciWcKetUY1PbSvpoSUHMXdJhHnYN/R1Is6exBMTtcXhG8W4SF1RTzTSGhumVdo8WqkLlHgr6TSavpRP+F8JgPaVx2RtnZGhWmlyzRrxS7U/Bz3ah0mVLu5yNmzKqpM03IAWfN8noZIz3Y/BXnNVaLVJT3RZuBo816JqMos1EdYexF1uiGaivbdqvFw+ou1t2IZ27+9LA/mUdb5B9hfI4BUcLxx7URmVlTv2W1U56xmNsaRJzGFTyz9AifNTNjED7yb/BXT/mSe2nMCORQvlbMFq1ubhojvBsPZPU/NTWaxX+N7bXxLOW4yMygQIAl+R3jOFmxrzAXOC9fh14EKG8oS6E05L0QbaYdIPTNgOeyTn5kEHpJl3nM+TS6qki1AzGKffzVicTgSVp1Bb+A449o/iWvw4aYC/8A5pmkprdJnknWKXF1kbBylgTH9pErQkZ/v8DaZycpWv5rjShCQ5eyc/MwcWu7pPzz9zSV2j/52xfYK8c09VEbRdkQIfheAOznu1QoCkEjd40K94MutqrQbRvsDbEKmSOEkj4=
+  app: serene-shore-23311
+  on:
+    repo: sursmobil/cookhub-server
