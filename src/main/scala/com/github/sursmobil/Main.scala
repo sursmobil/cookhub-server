@@ -3,19 +3,14 @@ package com.github.sursmobil
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.stream.ActorMaterializer
-import com.typesafe.scalalogging.StrictLogging
 import com.github.sursmobil.http.Routes
-import com.github.sursmobil.settings.Settings
-import com.typesafe.config.{Config, ConfigFactory}
+import com.typesafe.scalalogging.StrictLogging
 
 import scala.concurrent.{ExecutionContext, ExecutionContextExecutor, Future}
 
-object Main {
-  val config: Config = ConfigFactory.load()
-  val settings: Settings = Settings(config)
-
+object Main extends StrictLogging {
   // needed to run the route
-  implicit val system: ActorSystem = ActorSystem("cookhub", config)
+  implicit val system: ActorSystem = ActorSystem()
   implicit val materializer: ActorMaterializer = ActorMaterializer()
 
   // needed for the future map/flatmap in the end and future in fetchItem and saveOrder
@@ -23,7 +18,7 @@ object Main {
 
   def main(args: Array[String]): Unit = {
 
-    val bindingFuture = Http().bindAndHandle(Routes, "0.0.0.0", settings.serverPort)
+    val bindingFuture = Http().bindAndHandle(Routes, "0.0.0.0")
 
     sys.addShutdownHook {
       bindingFuture
@@ -31,16 +26,14 @@ object Main {
         .onComplete { _ => system.terminate() }
     }
 
-    CLI.exitOnFailure(bindingFuture)
+    exitOnFailure(bindingFuture)
   }
 
-  object CLI extends StrictLogging {
-
-    def exitOnFailure(futures: Future[_]*)(implicit exec: ExecutionContext): Unit = {
-      for (f <- futures) f.failed.foreach { t =>
-        logger.error("Fatal error, exiting", t)
-        System.exit(1)
-      }
+  def exitOnFailure(futures: Future[_]*)(implicit exec: ExecutionContext): Unit = {
+    for (f <- futures) f.failed.foreach { t =>
+      logger.error("Fatal error, exiting", t)
+      System.exit(1)
     }
   }
+
 }

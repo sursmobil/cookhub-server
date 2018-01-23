@@ -5,7 +5,7 @@ version := "0.1"
 scalaVersion := "2.12.4"
 
 val akkaVersion = "2.4.19"
-val akkaHttpVersion = "10.0.10"
+val akkaHttpVersion = "10.0.11"
 val elasticVersion = "5.6.0"
 val elastic4sVersion = "5.6.0"
 val scalaTestVersion = "3.0.4"

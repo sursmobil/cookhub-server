@@ -1,7 +1,7 @@
 package com.github.sursmobil
 
-import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.Directives._
+import akka.http.scaladsl.server.Route
 
 
 package object http {
