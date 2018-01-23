@@ -5,21 +5,25 @@ import akka.http.scaladsl.Http
 import akka.stream.ActorMaterializer
 import com.typesafe.scalalogging.StrictLogging
 import com.github.sursmobil.http.Routes
+import com.github.sursmobil.settings.Settings
 import com.typesafe.config.{Config, ConfigFactory}
 
 import scala.concurrent.{ExecutionContext, ExecutionContextExecutor, Future}
 
 object Main {
   val config: Config = ConfigFactory.load()
+  val settings: Settings = Settings(config)
+
   // needed to run the route
   implicit val system: ActorSystem = ActorSystem("cookhub", config)
   implicit val materializer: ActorMaterializer = ActorMaterializer()
+
   // needed for the future map/flatmap in the end and future in fetchItem and saveOrder
   implicit val executionContext: ExecutionContextExecutor = system.dispatcher
 
   def main(args: Array[String]): Unit = {
 
-    val bindingFuture = Http().bindAndHandle(Routes, "localhost", config.getInt("cookhub.server.port"))
+    val bindingFuture = Http().bindAndHandle(Routes, "0.0.0.0", settings.serverPort)
 
     sys.addShutdownHook {
       bindingFuture
