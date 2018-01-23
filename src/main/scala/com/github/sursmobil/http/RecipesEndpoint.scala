@@ -6,15 +6,15 @@ import akka.http.scaladsl.server.Route
 class RecipesEndpoint extends Endpoint {
 
   def route: Route = path("recipes" ~ Slash.?) {
-    getRecipes ~ putRecipes
+    getRecipes ~ postRecipes
   }
 
-  def getRecipes: Route = get {
+  private def getRecipes: Route = get {
     complete("gotcha")
   }
 
-  def putRecipes: Route = get {
-    complete("putcha")
+  private def postRecipes: Route = post {
+    complete("postcha")
   }
 
 }
