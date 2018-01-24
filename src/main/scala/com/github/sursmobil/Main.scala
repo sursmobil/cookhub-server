@@ -13,7 +13,7 @@ object Main extends StrictLogging {
   implicit val system: ActorSystem = ActorSystem()
   implicit val materializer: ActorMaterializer = ActorMaterializer()
 
-  // needed for the future map/flatmap in the end and future in fetchItem and saveOrder
+  // needed for the future map/flatmap in the end
   implicit val executionContext: ExecutionContextExecutor = system.dispatcher
 
   def main(args: Array[String]): Unit = {
@@ -23,7 +23,9 @@ object Main extends StrictLogging {
     sys.addShutdownHook {
       bindingFuture
         .flatMap(_.unbind())
-        .onComplete { _ => system.terminate() }
+        .onComplete { _ =>
+          system.terminate()
+        }
     }
 
     exitOnFailure(bindingFuture)

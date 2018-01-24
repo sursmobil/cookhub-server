@@ -6,6 +6,7 @@ import akka.http.scaladsl.server.Route
 class RecipeEndpointSpec extends EndpointSpec {
 
   val id: String = "some-test-id"
+
   def route: Route = new RecipeEndpoint().route
 
   "Recipes endpoint" when {

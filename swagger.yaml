@@ -1,0 +1,131 @@
+swagger: '2.0'
+info:
+  description: This is a description of CookHub server REST API.
+  version: 1.0.0
+  title: CookHub
+basePath: /rest/v1
+tags:
+  - name: recipe
+    description: Manage recipes
+schemes:
+  - http
+paths:
+  /recipes:
+    post:
+      summary: Create new recipe
+      tags:
+        - recipe
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Recipe definition
+          required: true
+          schema:
+            $ref: '#/definitions/Recipe'
+      responses:
+        '200':
+          description: Successfuly created
+          schema:
+            $ref: '#/definitions/CreateRecipeResponse'
+        '400':
+          description: Invalid body format
+    get:
+      summary: List all recipes
+      tags:
+        - recipe
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Successfuly created
+          schema:
+            $ref: '#/definitions/ListOfRecipes'
+  '/recipes/{id}':
+    put:
+      tags:
+        - recipe
+      summary: Update an existing recipe
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          minimum: 1
+          description: The recipe ID.
+        - in: body
+          name: body
+          description: New recipe definition
+          required: true
+          schema:
+            $ref: '#/definitions/Recipe'
+      responses:
+        '204':
+          description: Success
+        '400':
+          description: Invalid body format
+        '404':
+          description: Recipe not found
+    get:
+      summary: Get recipe details
+      tags:
+        - recipe
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: 'Success'
+          schema:
+            $ref: '#/definitions/Recipe'
+        '404':
+          description: Recipe not found
+definitions:
+  Recipe:
+    type: object
+    required:
+      - name
+    properties:
+      name:
+        type: string
+        example: Kim Chi
+      description:
+        type: string
+        example: Delicious korean Sauerkraut
+      ingredients:
+        type: string
+        example: 'cabbage, chili, ginger, salt, water'
+      preparation:
+        type: string
+        example: soak cabbage in salted water
+  RecipeSummary:
+    type: object
+    required:
+      - name
+      - id
+    properties:
+      name:
+        type: string
+        example: Kim Chi
+      id:
+        type: integer
+        example: 123456
+  CreateRecipeResponse:
+    type: object
+    required:
+      - id
+    properties:
+      id:
+        type: integer
+        example: 123456
+  ListOfRecipes:
+    type: array
+    items:
+      allOf:
+        - $ref: '#/definitions/RecipeSummary'
