@@ -19,7 +19,7 @@ object AkkaHttpServerComponent {
 
     override lazy val httpServer: HttpServer = new HttpServer with StrictLogging {
       override def start(): Unit = {
-        val bindingFuture = Http().bindAndHandle(route, "0.0.0.0", 9000)
+        val bindingFuture = Http().bindAndHandle(route, "0.0.0.0")
 
         sys.addShutdownHook {
           bindingFuture
