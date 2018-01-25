@@ -30,7 +30,7 @@ paths:
         '200':
           description: Successfuly created
           schema:
-            $ref: '#/definitions/CreateRecipeResponse'
+            $ref: '#/definitions/Recipe'
         '400':
           description: Invalid body format
     get:
@@ -43,7 +43,7 @@ paths:
         '200':
           description: Successfuly created
           schema:
-            $ref: '#/definitions/ListOfRecipes'
+            $ref: '#/definitions/Recipes'
   '/recipes/{id}':
     put:
       tags:
@@ -62,13 +62,15 @@ paths:
           description: The recipe ID.
         - in: body
           name: body
-          description: New recipe definition
+          description: Updated recipe definition
           required: true
           schema:
             $ref: '#/definitions/Recipe'
       responses:
-        '204':
+        '200':
           description: Success
+          schema:
+            $ref: '#/definitions/Recipe'
         '400':
           description: Invalid body format
         '404':
@@ -92,6 +94,10 @@ definitions:
     required:
       - name
     properties:
+      id:
+        type: string
+        example: aaabbbb123456
+        description: Not required in requests, will be provided by server
       name:
         type: string
         example: Kim Chi
@@ -116,16 +122,13 @@ definitions:
       id:
         type: integer
         example: 123456
-  CreateRecipeResponse:
+  Recipes:
     type: object
     required:
-      - id
+    - data
     properties:
-      id:
-        type: integer
-        example: 123456
-  ListOfRecipes:
-    type: array
-    items:
-      allOf:
-        - $ref: '#/definitions/RecipeSummary'
+      data:
+        type: array
+        items:
+          allOf:
+            - $ref: '#/definitions/RecipeSummary'
