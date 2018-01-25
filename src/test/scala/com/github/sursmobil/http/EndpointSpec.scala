@@ -8,8 +8,6 @@ import com.github.sursmobil.util._
 import org.scalatest.{Matchers, WordSpec}
 import spray.json.{DefaultJsonProtocol, JsObject, JsString, JsValue}
 
-import scala.language.implicitConversions
-
 trait EndpointSpec
     extends WordSpec
     with Matchers

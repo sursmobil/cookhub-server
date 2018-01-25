@@ -10,9 +10,6 @@ class RecipeRouteSpec extends EndpointSpec {
   trait Test extends RecipeRoute with StubRecipesService {
     val id: String = "some-test-id"
     val kimChi = Recipe(name = "Kim chi", id = Some(id))
-    val kimChiNoId = Recipe(name = "Kim chi", id = None)
-    val kimChiJs = JsObject("name" -> JsString("Kim chi"))
-    val kimChiJsRsp: JsObject = kimChiJs + ("id" -> JsString(id))
   }
 
   "Recipes endpoint" should {
@@ -22,7 +19,7 @@ class RecipeRouteSpec extends EndpointSpec {
 
       Get(s"/recipes/$id") ~> route ~> check {
         status shouldEqual StatusCodes.OK
-        responseAs[JsObject] shouldBe kimChiJsRsp
+        responseAs[JsObject] shouldBe kimChi.jsRsp
       }
     }
 
@@ -31,25 +28,25 @@ class RecipeRouteSpec extends EndpointSpec {
 
       Get(s"/recipes/$id/") ~> route ~> check {
         status shouldEqual StatusCodes.OK
-        responseAs[JsObject] shouldBe kimChiJsRsp
+        responseAs[JsObject] shouldBe kimChi.jsRsp
       }
     }
 
     "return 200 to PUT request on /recipes/<id>" in new Test {
       recipesService.updateRecipeForId _ when (*, *) onCall { rewriteIdToRecipeUpdate _ }
 
-      Put(s"/recipes/$id", kimChiJs) ~> route ~> check {
+      Put(s"/recipes/$id", kimChi.jsReq) ~> route ~> check {
         status shouldEqual StatusCodes.OK
-        responseAs[JsObject] shouldBe kimChiJsRsp
+        responseAs[JsObject] shouldBe kimChi.jsRsp
       }
     }
 
     "return 200 to PUT request on /recipes/<id>/" in new Test {
       recipesService.updateRecipeForId _ when (*, *) onCall { rewriteIdToRecipeUpdate _ }
 
-      Put(s"/recipes/$id/", kimChiJs) ~> route ~> check {
+      Put(s"/recipes/$id/", kimChi.jsReq) ~> route ~> check {
         status shouldEqual StatusCodes.OK
-        responseAs[JsObject] shouldBe kimChiJsRsp
+        responseAs[JsObject] shouldBe kimChi.jsRsp
       }
     }
 
